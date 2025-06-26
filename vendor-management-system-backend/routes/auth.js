@@ -5,15 +5,17 @@ import requireAuth from '../middleware/auth.js';
 
 const router = express.Router();
 
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
+
 // Google OAuth routes
 router.get('/google',
   passport.authenticate('google', { scope: ['profile', 'email'] })
 );
 
 router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: `${process.env.CLIENT_URL}/login` }),
+  passport.authenticate('google', { failureRedirect: `${CLIENT_URL}/login` }),
   (req, res) => {
-    res.redirect(process.env.CLIENT_URL);
+    res.redirect(CLIENT_URL);
   }
 );
 
