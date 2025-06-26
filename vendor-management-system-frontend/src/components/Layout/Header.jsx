@@ -20,7 +20,7 @@ const Header = () => {
       <div className="container">
         <div className="header-content">
           <div className="logo">
-            <span>📋 Vendor Management</span>
+            <span>📋 Vendor Management System</span>
           </div>
           <div className="user-info">
             <img 
