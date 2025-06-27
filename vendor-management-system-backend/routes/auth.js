@@ -22,6 +22,15 @@ router.get('/google/callback',
 // Get current user
 router.get('/user', requireAuth, getUser);
 
+router.get('/session-debug', (req, res) => {
+  res.json({
+    session: req.session,
+    user: req.user,
+    isAuthenticated: req.isAuthenticated()
+  });
+});
+
+
 // Logout
 router.post('/logout', requireAuth, logout);
 
