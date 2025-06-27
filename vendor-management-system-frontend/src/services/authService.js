@@ -9,7 +9,7 @@ export const authService = {
 
   getCurrentUser: async () => {
     try {
-      const response = await api.get('/auth/user');
+      const response = await api.get('/auth/user', {withCredentials: true});
       return response.data.user;
     } catch (error) {
         // throw new Error('Failed to get current user: ' + error.message);
