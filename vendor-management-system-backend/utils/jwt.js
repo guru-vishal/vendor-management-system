@@ -5,7 +5,8 @@ export const generateToken = (user) => {
     {
       id: user._id,             // MongoDB ObjectId
       name: user.name,
-      email: user.email
+      email: user.email,
+      avatar: user.avatar
     },
     process.env.JWT_SECRET,     // Secret key from .env
     {
