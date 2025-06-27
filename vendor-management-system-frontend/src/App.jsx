@@ -6,6 +6,7 @@ import Login from "./components/Auth/Login";
 import VendorList from "./components/Vendors/VendorList";
 import VendorForm from "./components/Vendors/VendorForm";
 import EditVendor from "./components/Vendors/EditVendor";
+import AuthSuccess from "./components/Auth/AuthSuccess";
 import "./App.css";
 
 function App() {
@@ -19,23 +20,29 @@ function App() {
       </div>
     );
   }
-
-  if (!user) {
-    return <Login />;
-  }
-
+  
   return (
-    <>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Navigate to="/vendors" replace />} />
-          <Route path="/vendors" element={<VendorList />} />
-          <Route path="/vendors/new" element={<VendorForm />} />
-          <Route path="/vendors/edit/:id" element={<EditVendor />} />
-          <Route path="*" element={<Navigate to="/vendors" replace />} />
-        </Routes>
-      </Layout>
-    </>
+    <Routes>
+      {/* ✅ Always render this so token gets saved */}
+      <Route path="/auth/success" element={<AuthSuccess />} />
+
+      {!user ? (
+        <>
+          {/* Login route for unauthenticated users */}
+          <Route path="*" element={<Login />} />
+        </>
+      ) : (
+        <>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Navigate to="/vendors" replace />} />
+            <Route path="/vendors" element={<VendorList />} />
+            <Route path="/vendors/new" element={<VendorForm />} />
+            <Route path="/vendors/edit/:id" element={<EditVendor />} />
+            <Route path="*" element={<Navigate to="/vendors" replace />} />
+          </Route>
+        </>
+      )}
+    </Routes>
   );
 }
 

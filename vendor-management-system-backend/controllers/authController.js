@@ -3,7 +3,7 @@ export const getUser = (req, res) => {
     res.json({
       success: true,
       user: {
-        id: req.user._id,
+        id: req.user.id,
         name: req.user.name,
         email: req.user.email,
         avatar: req.user.avatar
@@ -15,16 +15,6 @@ export const getUser = (req, res) => {
 };
 
 export const logout = (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      return res.status(500).json({ success: false, message: 'Logout failed' });
-    }
-    req.session.destroy((err) => {
-      if (err) {
-        return res.status(500).json({ success: false, message: 'Session destroy failed' });
-      }
-      res.clearCookie('connect.sid');
-      res.json({ success: true, message: 'Logged out successfully' });
-    });
-  });
+  // Nothing to do server-side with JWT logout
+  res.json({ success: true, message: 'Client should remove the token' });
 };

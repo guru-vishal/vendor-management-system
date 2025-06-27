@@ -17,7 +17,12 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    checkAuth();
+    const token = localStorage.getItem('token');
+    if (token) {
+      checkAuth();
+    } else {
+      setLoading(false); // no token means no need to wait
+    }
   }, []);
 
   const checkAuth = async () => {
@@ -40,9 +45,12 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await authService.logout();
-      setUser(null);
     } catch (error) {
       console.error('Logout failed:', error);
+    }
+    finally{
+      localStorage.removeItem('token');
+      setUser(null);
     }
   };
 
@@ -55,7 +63,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 };

@@ -4,12 +4,21 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
 
 export const authService = {
   loginWithGoogle: () => {
+    localStorage.removeItem('token');
     window.location.href = `${BACKEND_URL}/api/auth/google`;
   },
 
   getCurrentUser: async () => {
     try {
-      const response = await api.get('/auth/user');
+      const token = localStorage.getItem('token');
+      if (!token) return null;
+
+      const response = await api.get('/auth/user', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
       return response.data.user;
     } catch (error) {
         // throw new Error('Failed to get current user: ' + error.message);
@@ -21,7 +30,16 @@ export const authService = {
 
   logout: async () => {
     try {
-      await api.post('/auth/logout');
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      await api.post('/auth/logout', {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      localStorage.removeItem('token');
     } catch (error) {
       throw new Error('Logout failed: ' + error.message);
     }
