@@ -12,12 +12,14 @@ dotenv.config();
 
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
 
+console.log("Client URL:", CLIENT_URL);
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: CLIENT_URL,
+  origin: "https://vendor-management-system-vndb.vercel.app",
   credentials: true
 }));
 
